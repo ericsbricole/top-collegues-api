@@ -30,7 +30,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	@Value("${jwt.secret}")
 	private String SECRET;
-	
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws ServletException, IOException {
@@ -51,5 +51,5 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 		chain.doFilter(req, res);
 	}
-	
+
 }

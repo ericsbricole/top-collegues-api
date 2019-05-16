@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import dev.collegue.model.Voter;
+import dev.collegue.model.Participant;
 import dev.collegue.service.VoteService;
 import dev.collegue.model.InfosAuthent;
 
@@ -46,7 +46,7 @@ public class AuthCtrl {
 	private Integer EXPIRES_IN;
 
 	@PostMapping("/auth")
-	public ResponseEntity<Voter> authenticate(@RequestBody InfosAuthent infosAuthent, HttpServletResponse resp)
+	public ResponseEntity<Participant> authenticate(@RequestBody InfosAuthent infosAuthent, HttpServletResponse resp)
 			throws IOException, ServletException, URISyntaxException {
 		String pathToReAuth = COLLEGUE_API_URL + "/auth";
 
@@ -62,17 +62,17 @@ public class AuthCtrl {
 
 		RequestEntity<?> requestEntityForCollegueApi = RequestEntity.get(new URI(COLLEGUE_API_URL + "/me"))
 				.header("Cookie", responseEntity.getHeaders().getFirst("Set-Cookie")).build();
-		ResponseEntity<Voter> collegueConnecteResponsesEntity = rt.exchange(requestEntityForCollegueApi,
-				Voter.class);
-		Voter voteEntityConnected = collegueConnecteResponsesEntity.getBody();
+		ResponseEntity<Participant> collegueConnecteResponsesEntity = rt.exchange(requestEntityForCollegueApi,
+				Participant.class);
+		Participant voteEntityConnected = collegueConnecteResponsesEntity.getBody();
 		voteService.subscribeVoter(voteEntityConnected);
 		return ResponseEntity.ok(voteEntityConnected);
 	}
 
 	@GetMapping("/me")
-	public ResponseEntity<Voter> me() {
+	public ResponseEntity<Participant> me() {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		Voter voteEntity = voteService.findByEmail(email);
+		Participant voteEntity = voteService.findByEmail(email);
 		return ResponseEntity.ok(voteEntity);
 	}
 

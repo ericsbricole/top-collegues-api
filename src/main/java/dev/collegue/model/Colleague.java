@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "COLLEGUE")
-public class Collegue {
+public class Colleague {
 
 	@Id
 	@Column(name = "MATRICULE")
@@ -33,10 +33,10 @@ public class Collegue {
 	@Column(name = "ROLES")
 	private List<String> roles;
 
-	public Collegue() {
+	public Colleague() {
 	}
 
-	public Collegue(String matricule, String nom, String prenoms, String email, LocalDate dateDeNaissance,
+	public Colleague(String matricule, String nom, String prenoms, String email, LocalDate dateDeNaissance,
 			String photoUrl) {
 		this.matricule = matricule;
 		this.nom = nom;
@@ -46,7 +46,7 @@ public class Collegue {
 		this.photoUrl = photoUrl;
 	}
 
-	public Collegue(String matricule, String nom, String prenoms, String email, LocalDate dateDeNaissance,
+	public Colleague(String matricule, String nom, String prenoms, String email, LocalDate dateDeNaissance,
 			String photoUrl, String password, List<String> roles) {
 		this(matricule, nom, prenoms, email, dateDeNaissance, photoUrl);
 		this.password = password;

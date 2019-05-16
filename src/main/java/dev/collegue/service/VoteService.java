@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import dev.collegue.model.Voter;
+import dev.collegue.model.Participant;
+import dev.collegue.model.Vote;
+import dev.collegue.repository.ParticipantRepository;
 import dev.collegue.repository.VoteRepository;
 
 @Service
@@ -17,28 +19,30 @@ public class VoteService {
 	private final short VALUE_PER_VOTE = 100;
 
 	@Autowired
+	ParticipantRepository participantRepository;
+	@Autowired
 	VoteRepository voteRepository;
 
 	@Transactional
-	public Voter vote(String email) {
-		Voter collegueToVote = voteRepository.findById(email).orElseThrow(() -> new UsernameNotFoundException(
-				"There was not a collegue " + email + " in the database to vote for"));
-		collegueToVote.setScore(collegueToVote.getScore() + VALUE_PER_VOTE);
-		return collegueToVote;
+	public Participant vote(Vote vote, String voterEmail) {
+		String targetEmail = vote.getTargetEmail();
+		participantRepository.findById(voterEmail)
+				.orElseThrow(() -> new UsernameNotFoundException("the voter was not found"));
+		return null;
 	}
 
 	@Transactional
-	public void subscribeVoter(Voter voteEntity) {
-		voteRepository.save(voteEntity);
+	public void subscribeVoter(Participant voteEntity) {
+		participantRepository.save(voteEntity);
 	}
 
-	public Voter findByEmail(String email) {
-		return voteRepository.findById(email).orElseThrow(
+	public Participant findByEmail(String email) {
+		return participantRepository.findById(email).orElseThrow(
 				() -> new UsernameNotFoundException("There was not a collegue " + email + " in the database"));
 	}
 
-	public List<Voter> findAllVoters() {
-		return voteRepository.findAll();
+	public List<Participant> findAllVoters() {
+		return participantRepository.findAll();
 	}
 
 }

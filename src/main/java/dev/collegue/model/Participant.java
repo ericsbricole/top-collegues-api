@@ -1,11 +1,14 @@
 package dev.collegue.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Voter {
+public class Participant {
 
 	@Id
 	@Column(name = "EMAIL")
@@ -18,20 +21,20 @@ public class Voter {
 	private String prenoms;
 	@Column(name = "SCORE")
 	private Integer score;
-	@Column(name = "TARGETEMAIL")
-	private String targetEmail;
+	@OneToMany
+	@Column(name = "VOTES")
+	private List<Vote> votes;
 
-	public Voter() {
+	public Participant() {
 		score = 0;
 	}
 
-	public Voter(String email, String photoUrl, String nom, String prenoms, Integer score, String targetEmail) {
+	public Participant(String email, String photoUrl, String nom, String prenoms, Integer score) {
 		this.email = email;
 		this.photoUrl = photoUrl;
 		this.nom = nom;
 		this.prenoms = prenoms;
 		this.score = score;
-		this.targetEmail = targetEmail;
 	}
 
 	public String getEmail() {
@@ -72,14 +75,6 @@ public class Voter {
 
 	public void setScore(Integer score) {
 		this.score = score;
-	}
-
-	public String getTargetEmail() {
-		return targetEmail;
-	}
-
-	public void setTargetEmail(String targetEmail) {
-		this.targetEmail = targetEmail;
 	}
 
 }

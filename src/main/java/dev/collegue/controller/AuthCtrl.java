@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,9 +34,6 @@ public class AuthCtrl {
 	@Autowired
 	private VoteService voteService;
 
-	@Value("${collegue-api.port}")
-	private String COLLEGUE_API_PORT;
-
 	@Value("${collegue-api.url}")
 	private String COLLEGUE_API_URL;
 
@@ -45,6 +43,7 @@ public class AuthCtrl {
 	@Value("${jwt.expires_in}")
 	private Integer EXPIRES_IN;
 
+	@Transactional
 	@PostMapping("/auth")
 	public ResponseEntity<Participant> authenticate(@RequestBody InfosAuthent infosAuthent, HttpServletResponse resp)
 			throws IOException, ServletException, URISyntaxException {
@@ -62,11 +61,11 @@ public class AuthCtrl {
 
 		RequestEntity<?> requestEntityForCollegueApi = RequestEntity.get(new URI(COLLEGUE_API_URL + "/me"))
 				.header("Cookie", responseEntity.getHeaders().getFirst("Set-Cookie")).build();
-		ResponseEntity<Participant> collegueConnecteResponsesEntity = rt.exchange(requestEntityForCollegueApi,
+		ResponseEntity<Participant> connectedParticipantResponseEntity = rt.exchange(requestEntityForCollegueApi,
 				Participant.class);
-		Participant voteEntityConnected = collegueConnecteResponsesEntity.getBody();
-		voteService.subscribeVoter(voteEntityConnected);
-		return ResponseEntity.ok(voteEntityConnected);
+		Participant participant = connectedParticipantResponseEntity.getBody();
+		voteService.subscribeVoter(participant);
+		return ResponseEntity.ok(participant);
 	}
 
 	@GetMapping("/me")

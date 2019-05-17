@@ -1,5 +1,7 @@
 package dev.collegue.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -21,6 +23,8 @@ public class Vote {
 	@Enumerated
 	@Column(name = "VOTE_TYPE")
 	private VoteType voteType;
+	@Column(name = "DATE_TIME_VOTE")
+	private LocalDateTime voteDateTime;
 
 	public Vote() {
 	}
@@ -53,5 +57,15 @@ public class Vote {
 	public void setVoteType(VoteType voteType) {
 		this.voteType = voteType;
 	}
+
+	public LocalDateTime getVoteDateTime() {
+		return voteDateTime;
+	}
+
+	public void setVoteDateTime(LocalDateTime dateVote) {
+		this.voteDateTime = dateVote;
+	}
+	
+	
 
 }

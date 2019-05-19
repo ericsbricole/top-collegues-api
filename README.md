@@ -27,6 +27,10 @@ Déconnexion de l'utilisateur connecté (ne nécessite pas de corps de requête)
 POST "/logout"  
 
 Gestion des participants:  
+
+Récupération de la liste de tous les participants:  
+GET "/participants  
+  
   
 Récupération d'un participant par son matricule:  
 GET "/participants/{matricule}"  
@@ -44,5 +48,5 @@ voteType peut prendre 2 valeurs: "LIKE" ou "DISLIKE"
   
 Récupération des votes ciblant un participant:  
 GET "/votes/{matricule}  
-ou {matricule est le matricule du participant dont on veut récupérer les votes le ciblant (pour récupérer les votes effectués par le participant lui-même, récupérer le participant par un get sur son matricule, les participants connaissant les votes qu'ils ont effectués.  
+ou {matricule est le matricule du participant dont on veut récupérer les votes le ciblant (pour récupérer les votes effectués par le participant lui-même, récupérer le participant par un get, car les participants connaissant les votes qu'ils ont effectués.  
 

@@ -1,7 +1,7 @@
 # top-collegues-api
 
 top-collegues-api est une application back-end et stand-alone de vote pour le meilleur employé du mois, conçue dans le cadre d'une formation à diginamic pour le compte de DTA Ingénierie. Elle nécessite l'application collegues-api, Api de gestion des employés d'une société, également présente sur mes pages github. Les fonctionnalités de top-collegues-api sont disponibles à l'adresse suivante:  
-http://pennecot-collegues-api.herokuapp.com  
+http://pennecot-top-collegues-api.herokuapp.com
 Cette application est toujours en développement et susceptible d'évoluer (ajout ou modification de fonctionnalités)  
   
 Les opérations actuellement offertes par top-collegues-api sont les suivantes:

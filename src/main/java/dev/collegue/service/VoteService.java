@@ -1,6 +1,7 @@
 package dev.collegue.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -28,11 +29,11 @@ public class VoteService {
 	VoteRepository voteRepository;
 
 	@Transactional
-	public Participant vote(Vote vote, String voterEmail) throws VoteException {
+	public void vote(Vote vote, String voterEmail) throws VoteException {
 		String targetEmail = vote.getTargetEmail();
-		Participant voter = participantRepository.findById(voterEmail)
+		Participant voter = participantRepository.findByEmail(voterEmail)
 				.orElseThrow(() -> new UsernameNotFoundException("The voter was not found"));
-		Participant target = participantRepository.findById(targetEmail)
+		Participant target = participantRepository.findByEmail(targetEmail)
 				.orElseThrow(() -> new UsernameNotFoundException("The target participant of the vote was not found"));
 
 		if (voter.equals(target)) {
@@ -46,8 +47,8 @@ public class VoteService {
 		voteRepository.save(vote);
 		Integer newScore = calculateScore(target);
 		target.setScore(newScore);
+		participantRepository.save(target);
 
-		return target;
 	}
 
 	public Integer calculateScore(Participant target) throws VoteException {
@@ -60,18 +61,14 @@ public class VoteService {
 		return newScore;
 	}
 
-	@Transactional
-	public void subscribeVoter(Participant participant) {
-		participantRepository.save(participant);
-	}
+	public List<Vote> findVotesTargetingEmail(String emailTargeted) {
+		try {
+			return voteRepository.findByTargetEmail(emailTargeted)
+					.orElseThrow(() -> new VoteException("there was not any Vote targeting " + emailTargeted));
+		} catch (VoteException e) {
+			return new ArrayList<>();
+		}
 
-	public Participant findByEmail(String email) {
-		return participantRepository.findById(email).orElseThrow(
-				() -> new UsernameNotFoundException("No participant with the email " + email + " was found"));
-	}
-
-	public List<Participant> findAllVoters() {
-		return participantRepository.findAll();
 	}
 
 }

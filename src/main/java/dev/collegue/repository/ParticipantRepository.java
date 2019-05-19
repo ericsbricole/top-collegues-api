@@ -9,5 +9,7 @@ import dev.collegue.model.Participant;
 
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, String> {
+	
+	public Optional<Participant> findByEmail(String email);
 
 }

@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 public class Participant {
 
 	@Id
+	@Column(name = "MATRICULE")
+	private String matricule;
 	@Column(name = "EMAIL")
 	private String email;
 	@Column(name = "PHOTOURL")
@@ -35,6 +37,14 @@ public class Participant {
 		this.nom = nom;
 		this.prenoms = prenoms;
 		this.score = score;
+	}
+	
+	public String getMatricule() {
+		return matricule;
+	}
+
+	public void setMatricule(String matricule) {
+		this.matricule = matricule;
 	}
 
 	public String getEmail() {
@@ -89,7 +99,7 @@ public class Participant {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((matricule == null) ? 0 : matricule.hashCode());
 		return result;
 	}
 
@@ -102,14 +112,12 @@ public class Participant {
 		if (getClass() != obj.getClass())
 			return false;
 		Participant other = (Participant) obj;
-		if (email == null) {
-			if (other.email != null)
+		if (matricule == null) {
+			if (other.matricule != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!matricule.equals(other.matricule))
 			return false;
 		return true;
 	}
 	
-	
-
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import dev.collegue.model.Participant;
+import dev.collegue.service.ParticipantService;
 import dev.collegue.service.VoteService;
 import dev.collegue.model.InfosAuthent;
 
@@ -32,7 +33,8 @@ public class AuthCtrl {
 	@Autowired
 	private RestTemplate rt;
 	@Autowired
-	private VoteService voteService;
+	private ParticipantService participantService;
+	
 
 	@Value("${collegue-api.url}")
 	private String COLLEGUE_API_URL;
@@ -64,14 +66,14 @@ public class AuthCtrl {
 		ResponseEntity<Participant> connectedParticipantResponseEntity = rt.exchange(requestEntityForCollegueApi,
 				Participant.class);
 		Participant participant = connectedParticipantResponseEntity.getBody();
-		voteService.subscribeVoter(participant);
+		participantService.subscribeVoter(participant);
 		return ResponseEntity.ok(participant);
 	}
 
 	@GetMapping("/me")
 	public ResponseEntity<Participant> me() {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		Participant voteEntity = voteService.findByEmail(email);
+		Participant voteEntity = participantService.findByEmail(email);
 		return ResponseEntity.ok(voteEntity);
 	}
 
